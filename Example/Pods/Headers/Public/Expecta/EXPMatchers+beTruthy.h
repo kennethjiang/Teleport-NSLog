@@ -1,3 +1,1 @@
-#import "Expecta.h"
-
-EXPMatcherInterface(beTruthy, (void));
+../../../Expecta/src/matchers/EXPMatchers+beTruthy.h

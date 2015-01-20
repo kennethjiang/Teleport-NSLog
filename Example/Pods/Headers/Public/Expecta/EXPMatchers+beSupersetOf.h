@@ -1,4 +1,1 @@
-#import "Expecta.h"
-
-EXPMatcherInterface(beSupersetOf, (id subset));
-
+../../../Expecta/src/matchers/EXPMatchers+beSupersetOf.h

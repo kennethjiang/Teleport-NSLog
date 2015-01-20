@@ -7,12 +7,14 @@
 //
 
 #import "TPAppDelegate.h"
+#import <Teleport.h>
 
 @implementation TPAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [Teleport appDidLaunch:[[TeleportConfig alloc] init]];
     return YES;
 }
 							

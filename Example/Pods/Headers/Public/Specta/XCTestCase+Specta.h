@@ -1,4 +1,1 @@
-#import <XCTest/XCTest.h>
-
-@interface XCTestCase (Specta)
-@end
+../../../Specta/src/XCTestCase+Specta.h

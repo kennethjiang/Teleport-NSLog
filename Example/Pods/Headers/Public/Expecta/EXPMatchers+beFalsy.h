@@ -1,3 +1,1 @@
-#import "Expecta.h"
-
-EXPMatcherInterface(beFalsy, (void));
+../../../Expecta/src/matchers/EXPMatchers+beFalsy.h

@@ -17,7 +17,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    [NSTimer scheduledTimerWithTimeInterval:0.1
+                                     target:self
+                                   selector:@selector(writeLog)
+                                   userInfo:nil
+                                    repeats:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -26,4 +30,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)writeLog {
+    NSLog(@"here is the log");
+}
 @end
