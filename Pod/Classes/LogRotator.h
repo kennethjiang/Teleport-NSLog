@@ -7,14 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Singleton.h"
 
 @interface LogRotator : NSObject
 
-- (void)rotateIfNeeded;
+- (void)startLogRotation;
 
-/** Get the singleton instance
- */
-+ (LogRotator*) sharedInstance;
+- (NSString *)logDir;   //The directory where all log files will be stored
+- (NSString *)currentLogFilePath; //The path of log file that is current in rotation
 
 @end
