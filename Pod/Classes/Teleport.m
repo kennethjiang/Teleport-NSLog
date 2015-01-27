@@ -42,24 +42,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(Teleport)
 - (void)startWithConfig:(TeleportConfig *)config
 {
     [_logRotator startLogRotation];
+    [_logReaper startLogReaping];
 }
 
-#pragma mark - schedule timer -
-
-- (void)startLogReaping
-{
-    //Log reaping and log rotation share the same queue because they are not thread-safe
-//    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,
-//                                                     0, 0, _logRotationQueue);
-//    if (timer)
-//    {
-//        uint64_t interval = TP_LOG_REAPING_TIMER_INTERVAL * NSEC_PER_SEC;
-//        uint64_t leeway = 1ull * NSEC_PER_SEC;
-//        dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), interval, leeway);
-//        dispatch_source_set_event_handler(timer, ^{
-//            [_logRotator rotateIfNeeded];
-//        });
-//        dispatch_resume(timer);
-//    }
-}
 @end

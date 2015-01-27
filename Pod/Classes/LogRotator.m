@@ -9,7 +9,7 @@
 #import "LogRotator.h"
 #import "Singleton.h"
 
-static const int TP_LOG_ROTATION_TIMER_INTERVAL = 50ull;
+static const int TP_LOG_ROTATION_TIMER_INTERVAL = 5ull;
 static const char* const TP_LOG_ROTATION_QUEUE_NAME = "com.teleport.LogRotation";
 static const long long TP_MAX_LOG_FILE_SIZE = 500000ull;
 static const int TP_MAX_ROTATE_INTERVAL_IN_SECS = 300;
@@ -53,6 +53,19 @@ static const int TP_MAX_ROTATE_INTERVAL_IN_SECS = 300;
     }
 }
 
+- (NSString *)logPathSuffix {
+    return @".log";
+}
+
+- (NSString *)logDir {
+    NSString *cacheDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    return [cacheDirectory stringByAppendingPathComponent:@"com.teleport.data"];
+}
+
+- (NSString *)currentLogFilePath {
+    return _currentLogPath;
+}
+
 // *Not thread-safe* Need to be synchronized by caller.
 - (void)rotateIfNeeded
 {
@@ -82,7 +95,7 @@ static const int TP_MAX_ROTATE_INTERVAL_IN_SECS = 300;
 - (void)rotate
 {
     NSString *logDir = [self ensureLogDir];
-    NSString *newFileName = [NSString stringWithFormat:@"%f.log", [[NSDate date] timeIntervalSince1970] * 1000];
+    NSString *newFileName = [NSString stringWithFormat:@"%f%@", [[NSDate date] timeIntervalSince1970] * 1000, [self logPathSuffix]];
     _currentLogPath = [logDir stringByAppendingPathComponent:newFileName];
     freopen([_currentLogPath cStringUsingEncoding:NSASCIIStringEncoding], "a+", stderr);
     _lastRotation = [NSDate date];
@@ -90,9 +103,7 @@ static const int TP_MAX_ROTATE_INTERVAL_IN_SECS = 300;
 
 - (NSString *)ensureLogDir
 {
-    NSString *cacheDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *newDirectory = [cacheDirectory stringByAppendingPathComponent:@"com.teleport.data"];
-    
+    NSString *newDirectory = [self logDir];
     BOOL isDir = NO;
     NSError *err1;
     NSError *err2;

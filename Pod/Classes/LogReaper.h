@@ -14,6 +14,6 @@
 - (id) initWithLogRotator:(LogRotator *)logRotator;
 
 //  Find all log files out of rotation, forward them to backend, and delete them.
-- (void)reap;
+- (void)startLogReaping;
 
 @end
