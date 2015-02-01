@@ -7,12 +7,13 @@ import (
     "archive/zip"
     "io"
     "os"
+    "path"
     "bytes"
 )
 
 func handler(resp http.ResponseWriter, req *http.Request) {
-    //query := req.URL.Query()
-    //deviceid := query.Get("devid")
+    query := req.URL.Query()
+    deviceid := query.Get("devid")
     body, err := ioutil.ReadAll(req.Body)
     if err != nil {
         fmt.Println("Error: ", err)
@@ -24,7 +25,7 @@ func handler(resp http.ResponseWriter, req *http.Request) {
     }   
     for _, zf := range r.File {
         fmt.Println("filename: %s", zf.Name)
-        dst, err := os.Create(zf.Name)
+        dst, err := os.Create(path.Join("logs",deviceid))
         if err != nil {
             fmt.Println("Error: ", err)
         }
