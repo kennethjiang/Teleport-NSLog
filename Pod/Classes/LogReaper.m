@@ -7,6 +7,7 @@
 //
 
 #import "LogReaper.h"
+#import "SimpleHttpForwarder.h"
 
 static const int TP_LOG_REAPING_TIMER_INTERVAL = 5ull;
 static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
@@ -15,6 +16,8 @@ static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
     LogRotator *_logRotator;
     dispatch_queue_t _logReapingQueue;
     dispatch_source_t _timer;
+    NSUUID *_uuid;
+    SimpleHttpForwarder *_forwarder;
 }
 
 @end
@@ -28,12 +31,16 @@ static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
 
 }
 
-- (id) initWithLogRotator:(LogRotator *)logRotator
+- (id) initWithLogRotator:(LogRotator *)logRotator AndForwarder:(SimpleHttpForwarder *)forwarder
 {
     if((self = [super init]))
     {
         _logRotator = logRotator;
+        _forwarder = forwarder;
+
+        _uuid = [[UIDevice currentDevice] identifierForVendor];
         _logReapingQueue = dispatch_queue_create(TP_LOG_REAPING_QUEUE_NAME, DISPATCH_QUEUE_SERIAL);
+        
     }
     return self;
 }
@@ -58,9 +65,34 @@ static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
 - (void)reap
 {
     NSArray *sortedFiles = [self getSortedFilesWithSuffix:[_logRotator logPathSuffix] fromFolder:[_logRotator logDir]];
-    if (sortedFiles.count < 1 || [[[sortedFiles objectAtIndex:0] objectForKey:@"path"] isEqualToString:[_logRotator currentLogFilePath]])
+    
+    if (sortedFiles.count < 1)
         return;
+
+    NSString *oldestFile = [[sortedFiles objectAtIndex:0] objectForKey:@"path"];
+    // when the oldest file is current log file, nothing to reap
+    if ([oldestFile isEqualToString:[_logRotator currentLogFilePath]])
+        return;
+
+    // Only reap 1 log file, the oldest one, at a time
+    @try {
+        [_forwarder forwardLog:[NSData dataWithContentsOfFile:oldestFile] forDeviceId:[_uuid UUIDString]];
+    }
+    @catch (NSException *e) {
+        NSLog(@"Exception: %@", e);
+    }
+    @finally {
+        // Delete log file after reapped
+        // Consider log file reaped even in case of exception for maximum robustness.
+        NSFileManager *manager = [NSFileManager defaultManager];
+        NSError *error = nil;
+        [manager removeItemAtPath:oldestFile error:&error];
         
+        //FIXME: better way to handle error
+        if (error) {
+            NSLog(@"%@", error);
+        }
+    }
 }
 
 //This is reusable method which takes folder path and returns sorted file list

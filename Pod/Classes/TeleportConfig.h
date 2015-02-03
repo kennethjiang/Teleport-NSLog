@@ -10,4 +10,6 @@
 
 @interface TeleportConfig : NSObject
 
+@property (nonatomic, strong) NSString *aggregatorUrl;
+
 @end

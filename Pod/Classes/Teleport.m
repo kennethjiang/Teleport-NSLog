@@ -15,6 +15,7 @@
 @interface Teleport() {
     LogRotator *_logRotator;
     LogReaper *_logReaper;
+    SimpleHttpForwarder *_forwarder;
 }
 
 @end
@@ -33,14 +34,16 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(Teleport)
 {
     if((self = [super init]))
     {
-        _logRotator = [[LogRotator alloc] init];
-        _logReaper = [[LogReaper alloc] initWithLogRotator:_logRotator];
     }
     return self;
 }
 
 - (void)startWithConfig:(TeleportConfig *)config
 {
+    _logRotator = [[LogRotator alloc] init];
+    _forwarder = [[SimpleHttpForwarder alloc] initWithConfig:config];
+    _logReaper = [[LogReaper alloc] initWithLogRotator:_logRotator AndForwarder:_forwarder];
+
     [_logRotator startLogRotation];
     [_logReaper startLogReaping];
 }

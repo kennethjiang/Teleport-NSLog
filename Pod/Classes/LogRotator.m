@@ -12,7 +12,7 @@
 static const int TP_LOG_ROTATION_TIMER_INTERVAL = 5ull;
 static const char* const TP_LOG_ROTATION_QUEUE_NAME = "com.teleport.LogRotation";
 static const long long TP_MAX_LOG_FILE_SIZE = 500000ull;
-static const int TP_MAX_ROTATE_INTERVAL_IN_SECS = 300;
+static const int TP_MAX_ROTATE_INTERVAL_IN_SECS = 30;
 
 @interface LogRotator() {
     NSString *_currentLogPath;
