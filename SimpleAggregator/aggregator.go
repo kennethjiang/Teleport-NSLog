@@ -1,46 +1,45 @@
 package main
 
 import (
-    "fmt"
     "net/http"
     "io/ioutil"
-    "archive/zip"
+    "compress/gzip"
     "io"
     "os"
     "path"
     "bytes"
 )
 
-func handler(resp http.ResponseWriter, req *http.Request) {
+func Handler(resp http.ResponseWriter, req *http.Request) {
     query := req.URL.Query()
     deviceid := query.Get("devid")
+    if deviceid == "" {
+        http.Error(resp, "devid is required parameter", http.StatusBadRequest)
+        return
+    }
+
     body, err := ioutil.ReadAll(req.Body)
     if err != nil {
-        fmt.Println("Error: ", err)
+        http.Error(resp, err.Error(), http.StatusInternalServerError)
+        return
     }   
     
-    r, err := zip.NewReader(bytes.NewReader(body), req.ContentLength)
+    r, err := gzip.NewReader(bytes.NewReader(body))
     if err != nil {
-        fmt.Println("Error: ", err)
+        http.Error(resp, err.Error(), http.StatusInternalServerError)
+        return
     }   
-    for _, zf := range r.File {
-        fmt.Println("filename: %s", zf.Name)
-        dst, err := os.Create(path.Join("logs",deviceid))
-        if err != nil {
-            fmt.Println("Error: ", err)
-        }
-        defer dst.Close()
-        src, err := zf.Open()
-        if err != nil {
-            fmt.Println("Error: ", err)
-        }
-        defer src.Close()
-    
-        io.Copy(dst, src)
-    }   
+    dst, err := os.OpenFile(path.Join("logs",deviceid), os.O_APPEND|os.O_WRONLY,0600)
+    if err != nil {
+        http.Error(resp, err.Error(), http.StatusInternalServerError)
+        return
+    }
+    defer dst.Close()
+    defer r.Close()
+    io.Copy(dst, r)
 }
 
 func main() {
-    http.HandleFunc("/", handler)
+    http.HandleFunc("/", Handler)
     http.ListenAndServe(":8080", nil)
 }
