@@ -46,8 +46,6 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(Teleport)
 #else
 #ifndef DEBUG   //Send to backend only when it's in production mode
     shouldDoIt = YES;
-#else
-    shouldDoIt = NO;
 #endif
 #endif
     

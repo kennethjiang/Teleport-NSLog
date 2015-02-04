@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "TeleportConfig.h"
 
+#define TELEPORT_DEBUG
+
 @interface Teleport : NSObject
 
 + (void) appDidLaunch:(TeleportConfig *)config;
