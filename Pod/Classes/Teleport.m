@@ -40,17 +40,25 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(Teleport)
 
 - (void)startWithConfig:(TeleportConfig *)config
 {
-
-#ifndef DEBUG   //Nothing should be done with it's in dev mode
-
-    _logRotator = [[LogRotator alloc] init];
-    _forwarder = [[SimpleHttpForwarder alloc] initWithConfig:config];
-    _logReaper = [[LogReaper alloc] initWithLogRotator:_logRotator AndForwarder:_forwarder];
-
-    [_logRotator startLogRotation];
-    [_logReaper startLogReaping];
-
+    BOOL shouldDoIt = NO;
+#ifdef TELEPORT_DEBUG
+    shouldDoIt = YES;
+#else
+#ifndef DEBUG   //Send to backend only when it's in production mode
+    shouldDoIt = YES;
+#else
+    shouldDoIt = NO;
 #endif
+#endif
+    
+    if (shouldDoIt) {
+        _logRotator = [[LogRotator alloc] init];
+        _forwarder = [[SimpleHttpForwarder alloc] initWithConfig:config];
+        _logReaper = [[LogReaper alloc] initWithLogRotator:_logRotator AndForwarder:_forwarder];
+        
+        [_logRotator startLogRotation];
+        [_logReaper startLogReaping];
+    }
 }
 
 @end
