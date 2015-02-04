@@ -1,5 +1,6 @@
 #import "SimpleHttpForwarder.h"
 #import "zlib.h"
+#import "TeleportUtils.h"
 
 @interface SimpleHttpForwarder() {
     NSString *_aggregatorUrl;
@@ -29,14 +30,13 @@
     if ([log length] < 1)
         return;
 
-    [self uploadData:compressData(log) forField:@"file" filename:devId URL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?devid=%@", _aggregatorUrl, devId]] completion:^(BOOL success, NSString *errorMessage) {
-        NSLog(@"success = %d; errorMessage = %@", success, errorMessage);
+    [self uploadData:compressData(log) forField:@"file" URL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?devid=%@", _aggregatorUrl, devId]] completion:^(BOOL success, NSString *errorMessage) {
+        [TeleportUtils logToStdout:[NSString stringWithFormat:@"success = %d; errorMessage = %@", success, errorMessage]];
     }];
 }
 
 - (void)uploadData:(NSData *)data
                 forField:(NSString *)fieldName
-          filename:(NSString *)filename
                      URL:(NSURL*)url
               completion:(void (^)(BOOL success, NSString *errorMessage))completion
 {
@@ -55,28 +55,23 @@
     
     [request setHTTPBody:data];
     
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        if (connectionError)
-        {
-            if (completion)
-                completion(FALSE, [NSString stringWithFormat:@"%s: sendAsynchronousRequest error: %@", __FUNCTION__, connectionError]);
-            return;
-        }
-        
-        NSError *error = nil;
-        NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        if (!responseObject)
-        {
-            if (completion)
-                completion(FALSE, [NSString stringWithFormat:@"%s: JSONObjectWithData error=%@", __FUNCTION__, error]);
-            return;
-        }
-        
-        BOOL success = [responseObject[@"success"] boolValue];
-        NSString *errorMessage = responseObject[@"error"];
+    [TeleportUtils logToStdout:[NSString stringWithFormat:@"Posting %d bytes to: %@", [data length], [url absoluteString]]];
+
+    NSURLResponse *reponse;
+    NSError *error;
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&reponse error:&error];
+    
+    if (error)
+    {
         if (completion)
-            completion(success, errorMessage);
-    }];
+            completion(FALSE, [NSString stringWithFormat:@"%s: sendSynchronousRequest error: %@", __FUNCTION__, error]);
+        return;
+    } else {
+        if (completion)
+            completion(TRUE, @"Ok");
+        return;
+    }
+
 }
 
 NSData* compressData(NSData* uncompressedData) {

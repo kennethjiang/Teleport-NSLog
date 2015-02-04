@@ -40,12 +40,17 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(Teleport)
 
 - (void)startWithConfig:(TeleportConfig *)config
 {
+
+#ifndef DEBUG   //Nothing should be done with it's in dev mode
+
     _logRotator = [[LogRotator alloc] init];
     _forwarder = [[SimpleHttpForwarder alloc] initWithConfig:config];
     _logReaper = [[LogReaper alloc] initWithLogRotator:_logRotator AndForwarder:_forwarder];
 
     [_logRotator startLogRotation];
     [_logReaper startLogReaping];
+
+#endif
 }
 
 @end

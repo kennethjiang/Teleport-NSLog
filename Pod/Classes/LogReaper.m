@@ -8,6 +8,7 @@
 
 #import "LogReaper.h"
 #import "SimpleHttpForwarder.h"
+#import "TeleportUtils.h"
 
 static const int TP_LOG_REAPING_TIMER_INTERVAL = 5ull;
 static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
@@ -64,8 +65,12 @@ static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
 
 - (void)reap
 {
+    [TeleportUtils logToStdout:@"reaping starts..."];
+
     NSArray *sortedFiles = [self getSortedFilesWithSuffix:[_logRotator logPathSuffix] fromFolder:[_logRotator logDir]];
     
+    [TeleportUtils logToStdout:[NSString stringWithFormat:@"# of log files found: %d", sortedFiles.count]];
+
     if (sortedFiles.count < 1)
         return;
 
@@ -74,12 +79,14 @@ static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
     if ([oldestFile isEqualToString:[_logRotator currentLogFilePath]])
         return;
 
+    [TeleportUtils logToStdout:[NSString stringWithFormat:@"Oldest log file: %@", oldestFile]];
+
     // Only reap 1 log file, the oldest one, at a time
     @try {
         [_forwarder forwardLog:[NSData dataWithContentsOfFile:oldestFile] forDeviceId:[_uuid UUIDString]];
     }
     @catch (NSException *e) {
-        NSLog(@"Exception: %@", e);
+        [TeleportUtils logToStdout:[NSString stringWithFormat:@"Exception: %@", e]];
     }
     @finally {
         // Delete log file after reapped
@@ -88,9 +95,8 @@ static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
         NSError *error = nil;
         [manager removeItemAtPath:oldestFile error:&error];
         
-        //FIXME: better way to handle error
         if (error) {
-            NSLog(@"%@", error);
+            [TeleportUtils logToStdout:[NSString stringWithFormat:@"Exception: %@", error]];
         }
     }
 }
