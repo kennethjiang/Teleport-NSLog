@@ -65,7 +65,12 @@ static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
 
 - (void)reap
 {
-    [TeleportUtils teleportDebug:@"reaping starts..."];
+    [TeleportUtils teleportDebug:@"Log reaping woke up"];
+
+    if ([_logRotator currentLogFilePath] == nil) {
+        [TeleportUtils teleportDebug:@"Rotator is not ready yet. Nothing to be done"];
+        return;
+    }
 
     NSArray *sortedFiles = [self getSortedFilesWithSuffix:[_logRotator logPathSuffix] fromFolder:[_logRotator logDir]];
     
@@ -107,7 +112,7 @@ static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
     NSError *error = nil;
     NSArray* filesArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:folderPath error:&error];
     if (error) {
-        NSLog(@"%@", error);
+        [TeleportUtils teleportDebug:@"Error: %@", error];
         return [[NSArray alloc] init]; //return empty array in case of error
     }
 

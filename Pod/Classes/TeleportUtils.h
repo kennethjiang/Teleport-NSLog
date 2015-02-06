@@ -8,6 +8,6 @@
 
 @interface TeleportUtils : NSObject
 
-+ (void) teleportDebug:(NSString *)str;
++ (void) teleportDebug:(NSString *)format, ...;
 
 @end
