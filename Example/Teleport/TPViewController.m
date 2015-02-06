@@ -8,7 +8,9 @@
 
 #import "TPViewController.h"
 
-@interface TPViewController ()
+@interface TPViewController () {
+    int _count;
+}
 
 @end
 
@@ -17,7 +19,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [NSTimer scheduledTimerWithTimeInterval:0.1
+    [NSTimer scheduledTimerWithTimeInterval:0.5
                                      target:self
                                    selector:@selector(writeLog)
                                    userInfo:nil
@@ -31,6 +33,6 @@
 }
 
 - (void)writeLog {
-    NSLog(@"here is the log");
+    NSLog(@"here comes the log - %d", _count++);
 }
 @end

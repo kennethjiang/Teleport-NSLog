@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "TeleportConfig.h"
 
-#define TELEPORT_DEBUG
+FOUNDATION_EXPORT BOOL TELEPORT_DEBUG;
 
 @interface Teleport : NSObject
 

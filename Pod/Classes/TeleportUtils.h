@@ -8,6 +8,6 @@
 
 @interface TeleportUtils : NSObject
 
-+ (void) logToStdout:(NSString *)str;
++ (void) teleportDebug:(NSString *)str;
 
 @end

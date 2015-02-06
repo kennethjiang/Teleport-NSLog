@@ -65,11 +65,11 @@ static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
 
 - (void)reap
 {
-    [TeleportUtils logToStdout:@"reaping starts..."];
+    [TeleportUtils teleportDebug:@"reaping starts..."];
 
     NSArray *sortedFiles = [self getSortedFilesWithSuffix:[_logRotator logPathSuffix] fromFolder:[_logRotator logDir]];
     
-    [TeleportUtils logToStdout:[NSString stringWithFormat:@"# of log files found: %d", sortedFiles.count]];
+    [TeleportUtils teleportDebug:[NSString stringWithFormat:@"# of log files found: %d", sortedFiles.count]];
 
     if (sortedFiles.count < 1)
         return;
@@ -79,14 +79,14 @@ static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
     if ([oldestFile isEqualToString:[_logRotator currentLogFilePath]])
         return;
 
-    [TeleportUtils logToStdout:[NSString stringWithFormat:@"Oldest log file: %@", oldestFile]];
+    [TeleportUtils teleportDebug:[NSString stringWithFormat:@"Oldest log file: %@", oldestFile]];
 
     // Only reap 1 log file, the oldest one, at a time
     @try {
         [_forwarder forwardLog:[NSData dataWithContentsOfFile:oldestFile] forDeviceId:[_uuid UUIDString]];
     }
     @catch (NSException *e) {
-        [TeleportUtils logToStdout:[NSString stringWithFormat:@"Exception: %@", e]];
+        [TeleportUtils teleportDebug:[NSString stringWithFormat:@"Exception: %@", e]];
     }
     @finally {
         // Delete log file after reapped
@@ -96,7 +96,7 @@ static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
         [manager removeItemAtPath:oldestFile error:&error];
         
         if (error) {
-            [TeleportUtils logToStdout:[NSString stringWithFormat:@"Exception: %@", error]];
+            [TeleportUtils teleportDebug:[NSString stringWithFormat:@"Exception: %@", error]];
         }
     }
 }

@@ -14,8 +14,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    TELEPORT_DEBUG = YES;
     TeleportConfig *config = [[TeleportConfig alloc] init];
-    config.aggregatorUrl = @"http://ec2-54-152-125-3.compute-1.amazonaws.com:8080/";
+//    config.aggregatorUrl = @"http://ec2-54-152-125-3.compute-1.amazonaws.com:8080/";
     [Teleport appDidLaunch:config];
     return YES;
 }

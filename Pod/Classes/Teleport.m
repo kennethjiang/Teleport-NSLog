@@ -12,6 +12,8 @@
 #import "LogReaper.h"
 
 
+BOOL TELEPORT_DEBUG = NO;
+
 @interface Teleport() {
     LogRotator *_logRotator;
     LogReaper *_logReaper;
@@ -40,16 +42,18 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(Teleport)
 
 - (void)startWithConfig:(TeleportConfig *)config
 {
-    BOOL shouldDoIt = NO;
-#ifdef TELEPORT_DEBUG
-    shouldDoIt = YES;
-#else
+    BOOL shouldTeleport = NO;
+
+    if (TELEPORT_DEBUG) { //turned on teleport we are debugging Teleport
+        shouldTeleport = YES;
+    }
+    else {
 #ifndef DEBUG   //Send to backend only when it's in production mode
-    shouldDoIt = YES;
+        shouldTeleport = YES;
 #endif
-#endif
+    }
     
-    if (shouldDoIt) {
+    if (shouldTeleport) {
         _logRotator = [[LogRotator alloc] init];
         _forwarder = [[SimpleHttpForwarder alloc] initWithConfig:config];
         _logReaper = [[LogReaper alloc] initWithLogRotator:_logRotator AndForwarder:_forwarder];

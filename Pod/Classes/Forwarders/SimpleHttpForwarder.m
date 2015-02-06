@@ -27,11 +27,14 @@
 }
 
 - (void)forwardLog:(NSData *)log forDeviceId:(NSString *)devId {
+    if (_aggregatorUrl == nil || _aggregatorUrl.length == 0)
+        return;
+    
     if ([log length] < 1)
         return;
 
     [self uploadData:compressData(log) forField:@"file" URL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?devid=%@", _aggregatorUrl, devId]] completion:^(BOOL success, NSString *errorMessage) {
-        [TeleportUtils logToStdout:[NSString stringWithFormat:@"success = %d; errorMessage = %@", success, errorMessage]];
+        [TeleportUtils teleportDebug:[NSString stringWithFormat:@"success = %d; errorMessage = %@", success, errorMessage]];
     }];
 }
 
@@ -55,7 +58,7 @@
     
     [request setHTTPBody:data];
     
-    [TeleportUtils logToStdout:[NSString stringWithFormat:@"Posting %d bytes to: %@", [data length], [url absoluteString]]];
+    [TeleportUtils teleportDebug:[NSString stringWithFormat:@"Posting %d bytes to: %@", [data length], [url absoluteString]]];
 
     NSURLResponse *reponse;
     NSError *error;
