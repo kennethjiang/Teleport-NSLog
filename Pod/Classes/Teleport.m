@@ -17,7 +17,7 @@ BOOL TELEPORT_DEBUG = NO;
 @interface Teleport() {
     LogRotator *_logRotator;
     LogReaper *_logReaper;
-    SimpleHttpForwarder *_forwarder;
+    id <Forwarder> _forwarder;
 }
 
 @end
@@ -25,23 +25,17 @@ BOOL TELEPORT_DEBUG = NO;
 
 IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(Teleport)
 
-+ (void)appDidLaunch:(TeleportConfig *)config
++ (void) startWithForwarder:(id <Forwarder>)forwarder;
 {
-    [[Teleport sharedInstance] startWithConfig:config];
+    Teleport *instance = [Teleport sharedInstance];
+    [instance startWithForwarder:forwarder];
 }
 
 #pragma mark - Lifecycle -
 
-- (id) init
-{
-    if((self = [super init]))
-    {
-    }
-    return self;
-}
+- (void)startWithForwarder:(id <Forwarder>)forwarder {
+    _forwarder = forwarder;
 
-- (void)startWithConfig:(TeleportConfig *)config
-{
     BOOL shouldTeleport = NO;
 
     if (TELEPORT_DEBUG) { //turned on teleport we are debugging Teleport
@@ -55,7 +49,6 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(Teleport)
     
     if (shouldTeleport) {
         _logRotator = [[LogRotator alloc] init];
-        _forwarder = [[SimpleHttpForwarder alloc] initWithConfig:config];
         _logReaper = [[LogReaper alloc] initWithLogRotator:_logRotator AndForwarder:_forwarder];
         
         [_logRotator startLogRotation];

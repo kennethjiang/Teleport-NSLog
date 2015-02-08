@@ -1,10 +1,14 @@
 #import <Foundation/Foundation.h>
-#import "TeleportConfig.h"
 
-@interface SimpleHttpForwarder : NSObject
-
-- (id)initWithConfig:(TeleportConfig *)config;
-
+@protocol Forwarder <NSObject>
+@required
 - (void)forwardLog:(NSData *)log forDeviceId:(NSString *)devId;
+@end
+
+@interface SimpleHttpForwarder : NSObject <Forwarder>
+
+@property (nonatomic, strong) NSString *aggregatorUrl;
+
++ (SimpleHttpForwarder *)forwardWithAggregatorUrl:(NSString *)url;
 
 @end

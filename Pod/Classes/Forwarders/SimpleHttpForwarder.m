@@ -2,38 +2,25 @@
 #import "zlib.h"
 #import "TeleportUtils.h"
 
-@interface SimpleHttpForwarder() {
-    NSString *_aggregatorUrl;
-}
+@interface SimpleHttpForwarder()
 @end
 
 @implementation SimpleHttpForwarder
 
-- (id)init
-{
-    [NSException raise:@"init is not allowed" format:@"Hello Apple, can you give us a better way of preventing wrong init methods being called?"];
-    return nil;
-    
-}
-
-- (id) initWithConfig:(TeleportConfig *)config
-{
-    if((self = [super init]))
-    {
-        _aggregatorUrl = config.aggregatorUrl;
-        
-    }
-    return self;
++ (SimpleHttpForwarder *)forwardWithAggregatorUrl:(NSString *)url {
+    SimpleHttpForwarder *forwarder = [[SimpleHttpForwarder alloc] init];
+    forwarder.aggregatorUrl = url;
+    return forwarder;
 }
 
 - (void)forwardLog:(NSData *)log forDeviceId:(NSString *)devId {
-    if (_aggregatorUrl == nil || _aggregatorUrl.length == 0)
+    if (self.aggregatorUrl == nil || self.aggregatorUrl.length == 0)
         return;
     
     if ([log length] < 1)
         return;
 
-    [self uploadData:compressData(log) forField:@"file" URL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?devid=%@", _aggregatorUrl, devId]] completion:^(BOOL success, NSString *errorMessage) {
+    [self uploadData:compressData(log) forField:@"file" URL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?devid=%@", self.aggregatorUrl, devId]] completion:^(BOOL success, NSString *errorMessage) {
         [TeleportUtils teleportDebug:[NSString stringWithFormat:@"success = %d; errorMessage = %@", success, errorMessage]];
     }];
 }
@@ -58,7 +45,7 @@
     
     [request setHTTPBody:data];
     
-    [TeleportUtils teleportDebug:[NSString stringWithFormat:@"Posting %d bytes to: %@", [data length], [url absoluteString]]];
+    [TeleportUtils teleportDebug:[NSString stringWithFormat:@"Posting %lu bytes to: %@", (unsigned long)[data length], [url absoluteString]]];
 
     NSURLResponse *reponse;
     NSError *error;

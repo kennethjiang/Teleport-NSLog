@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TeleportConfig.h"
+#import "SimpleHttpForwarder.h"
 
 FOUNDATION_EXPORT BOOL TELEPORT_DEBUG;
 
 @interface Teleport : NSObject
 
-+ (void) appDidLaunch:(TeleportConfig *)config;
++ (void) startWithForwarder:(id <Forwarder>)forwarder;
 
 @end

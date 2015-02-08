@@ -7,7 +7,7 @@
 //
 
 #import "LogReaper.h"
-#import "SimpleHttpForwarder.h"
+#import "Teleport.h"
 #import "TeleportUtils.h"
 
 static const int TP_LOG_REAPING_TIMER_INTERVAL = 5ull;
@@ -18,7 +18,7 @@ static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
     dispatch_queue_t _logReapingQueue;
     dispatch_source_t _timer;
     NSUUID *_uuid;
-    SimpleHttpForwarder *_forwarder;
+    id <Forwarder> _forwarder;
 }
 
 @end
@@ -74,7 +74,7 @@ static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
 
     NSArray *sortedFiles = [self getSortedFilesWithSuffix:[_logRotator logPathSuffix] fromFolder:[_logRotator logDir]];
     
-    [TeleportUtils teleportDebug:[NSString stringWithFormat:@"# of log files found: %d", sortedFiles.count]];
+    [TeleportUtils teleportDebug:[NSString stringWithFormat:@"# of log files found: %lu", (unsigned long)sortedFiles.count]];
 
     if (sortedFiles.count < 1)
         return;
