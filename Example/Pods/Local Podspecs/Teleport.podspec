@@ -10,15 +10,8 @@
 Pod::Spec.new do |s|
   s.name             = "Teleport"
   s.version          = "0.1.0"
-  s.summary          = "A short description of Teleport."
-  s.description      = <<-DESC
-                       An optional longer description of Teleport
-
-                       * Markdown format.
-                       * Don't worry about the indent, we strip it!
-                       DESC
+  s.summary          = "Remote logging for iOS. Send stdout/stderr to server."
   s.homepage         = "https://github.com/kennethjiang/Teleport"
-  # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'Apache 2.0'
   s.author           = { "Kenneth Jiang" => "kenneth.jiang@gmail.com" }
   s.source           = { :git => "https://github.com/kennethjiang/Teleport.git", :tag => s.version.to_s }
