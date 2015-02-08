@@ -1,5 +1,7 @@
 # Teleport
 
+Capture stderr and stdout when your App runs in user's devices, and send it to specified server.
+
 [![CI Status](http://img.shields.io/travis/Kenneth Jiang/Teleport.svg?style=flat)](https://travis-ci.org/Kenneth Jiang/Teleport)
 [![Version](https://img.shields.io/cocoapods/v/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport)
 [![License](https://img.shields.io/cocoapods/l/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport)
