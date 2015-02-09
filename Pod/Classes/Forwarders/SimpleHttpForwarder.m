@@ -7,7 +7,7 @@
 
 @implementation SimpleHttpForwarder
 
-+ (SimpleHttpForwarder *)forwardWithAggregatorUrl:(NSString *)url {
++ (SimpleHttpForwarder *)forwarderWithAggregatorUrl:(NSString *)url {
     SimpleHttpForwarder *forwarder = [[SimpleHttpForwarder alloc] init];
     forwarder.aggregatorUrl = url;
     return forwarder;

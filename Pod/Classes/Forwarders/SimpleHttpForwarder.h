@@ -9,6 +9,6 @@
 
 @property (nonatomic, strong) NSString *aggregatorUrl;
 
-+ (SimpleHttpForwarder *)forwardWithAggregatorUrl:(NSString *)url;
++ (SimpleHttpForwarder *)forwarderWithAggregatorUrl:(NSString *)url;
 
 @end

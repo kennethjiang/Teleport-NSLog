@@ -10,9 +10,9 @@
 Pod::Spec.new do |s|
   s.name             = "Teleport"
   s.version          = "0.1.0"
-  s.summary          = "Remote logging for iOS. Send stdout/stderr to server."
+  s.summary          = "Remote logging for iOS. Send stdout/stderr to backend server."
   s.homepage         = "https://github.com/kennethjiang/Teleport"
-  s.license          = 'Apache 2.0'
+  s.license          = 'MIT'
   s.author           = { "Kenneth Jiang" => "kenneth.jiang@gmail.com" }
   s.source           = { :git => "https://github.com/kennethjiang/Teleport.git", :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
