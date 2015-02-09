@@ -1,6 +1,6 @@
 # Teleport [![CI Status](http://img.shields.io/travis/kennethjiang/Teleport.svg?style=flat)](https://travis-ci.org/Kenneth Jiang/Teleport) [![Version](https://img.shields.io/cocoapods/v/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport) [![License](https://img.shields.io/cocoapods/l/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport) [![Platform](https://img.shields.io/cocoapods/p/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport)
 
-Capture stderr and stdout when your app runs in user's devices, and send it to specified server.
+*Capture stderr and stdout when your app runs in user's devices, and send it to specified server.*
 
 When we debug in xcode, we use NSLog to print a lot of helpful info to console. It'd be nice if we can access the same info when the app runs in user's devices.
 
@@ -10,7 +10,7 @@ Teleport re-directs stdout and stderr (this is where NSLog writes messages to) t
 
 ## Installation
 
-### Podfile
+### Podfile in your iOS project
 
 Teleport is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
@@ -27,10 +27,10 @@ You can use Linux/Windows/Mac for aggregator. The only requirement is that this 
 
 ## Usage
 
-### In `AppDelegate.m`
+In `AppDelegate.m`
 
 ```objective-c
-#import "RavenClient.h"
+#import <Teleport.h>
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // TELEPORT_DEBUG = YES; // Uncomment this line if you want to capture log when debugging it in xcode.
