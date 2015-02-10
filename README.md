@@ -1,13 +1,13 @@
 Teleport [![CI Status](http://img.shields.io/travis/kennethjiang/Teleport.svg?style=flat)](https://travis-ci.org/Kenneth Jiang/Teleport) [![Version](https://img.shields.io/cocoapods/v/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport) [![License](https://img.shields.io/cocoapods/l/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport) [![Platform](https://img.shields.io/cocoapods/p/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport)
 ===============
 
-*Capture NSLog messages when your app runs in user's devices, and send them to specified backend server.*
+*Teleport captures NSLog messages when your app runs in user's devices, and sends them to specified backend server.*
 
-When we debug in xcode, we use NSLog to print a lot of helpful messages to console. It'd be nice if we can access the same info when the app runs in user's devices.
+When we debug in Xcode, we use NSLog to print a lot of helpful messages to console. It'd be nice if we can access the same info when the app runs in user's devices.
 
 This was what prompted me to write Teleport.
 
-Teleport re-directs stdout and stderr (where NSLog writes messages to) to backend server (aggregator). Teleport ships with SimpleAggregator, which is a basic HTTP-based aggregator. Teleport can be easily extended to send to other aggregators such as [logstash](http://logstash.net/), [Fluentd](http://www.fluentd.org/), [Logentries](https://logentries.com), etc.
+Teleport re-directs stdout and stderr (where NSLog writes messages to) to backend server (aggregator). SimpleAggregator, which is a basic HTTP-based aggregator, is included in Teleport. Teleport can be easily extended to send to other aggregators such as [logstash](http://logstash.net/), [Fluentd](http://www.fluentd.org/), [Logentries](https://logentries.com), etc.
 
 Installation
 --------------
@@ -35,7 +35,7 @@ In `AppDelegate.m`
 #import <Teleport.h>
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // TELEPORT_DEBUG = YES; // Uncomment this line if you want to capture log when debugging it in xcode.
+    // TELEPORT_DEBUG = YES; // Uncomment this line if you want to capture log when debugging it in Xcode.
     [Teleport startWithForwarder:
         [SimpleHttpForwarder forwarderWithAggregatorUrl:@"http://hostname_or_ip_addr.of.your.server:8080/"]
     ];
@@ -44,23 +44,59 @@ In `AppDelegate.m`
 }
 ```
 
-Check captured logs
+Inspecting captured messages
 ----------------
 
 - Login to aggregator
 - `cd Teleport/SimpleAggregator/logs`. All captured log files are stored here. By the file name of device UUID
 
-*Note: Teleport will NOT redirect stdout or stderr when the app runs in xcode, so that NSLog will still write messages to xcode console window. To override this behavior, uncomment `// TELEPORT_DEBUG = YES;`.
+*Note: Teleport will NOT redirect stdout or stderr when the app runs in Xcode, so that NSLog will still write messages to Xcode console window. To override this behavior, uncomment `// TELEPORT_DEBUG = YES;`.
 
-## How To Contribute
+Testing aggregator
+----------------
+
+By default, Teleport only sends NSLog messages to aggregator when app runs in user's devices. It does nothing when app is launched in Xcode, and therefore the aggregator will receive nothing.
+
+It is a frequently-asked question: how do I test aggregator before I release my app? The answer is: you don't need to because SimpleAggregator just works. But if you insist, or you use your own aggregator, there are 2 options to test aggregator:
+
+1. Cut a release build for your app and install it using HockeyApp or similar services, or
+2. Turn on `TELEPORT_DEBUG = YES;`. Do forget to turn it off before releasing your app.
+
+```objective-c
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    TELEPORT_DEBUG = YES;
+    [Teleport startWithForwarder:
+        [SimpleHttpForwarder forwarderWithAggregatorUrl:@"http://hostname_or_ip_addr.of.your.server:8080/"]
+    ];
+    // [...]
+```
+
+Extending Teleport
+-------------------
+
+Teleport can be easily extended to send to other aggregators. To do so, you need to implement `Forwarder` protocol, which is a simple protocol with only 1 required interface:
+
+```objective-c
+@protocol Forwarder <NSObject>
+@required
+- (void)forwardLog:(NSData *)log forDeviceId:(NSString *)devId;
+@end
+```
+
+You can use `SimpleHttpForwarder` as reference.
+
+How To Contribute
+------------------
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-## Author
+Author
+-----------------
 
 Kenneth Jiang, kenneth.jiang@gmail.com
 
-## License
+License
+-----------------
 
 Teleport is available under the MIT license. See the LICENSE file for more info.
 
