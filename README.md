@@ -22,11 +22,16 @@ Teleport is available through [CocoaPods](http://cocoapods.org). To install it, 
 
 You can use Linux/Windows/Mac for aggregator. The only requirement is that port 8080 of this server needs to be accessible from the internet.
 
-- [Intall GO](https://golang.org/doc/install). If you are on Ubuntu, simply do:
+1. [Intall GO](https://golang.org/doc/install). If you are on Ubuntu, simply do:
+
     sudo apt-get install golang
-- Clone Teleport to aggregator server:
+
+2. Clone Teleport to aggregator server:
+
     git clone https://github.com/kennethjiang/Teleport.git
-- Compile and run aggegator:
+
+3. Compile and run aggegator:
+
     cd Teleport/SimpleAggregator && go build aggregator.go && ./aggregator
 
 Usage
@@ -50,8 +55,10 @@ In `AppDelegate.m`
 Inspecting captured messages
 ----------------
 
-- Login to aggregator
-- All captured log files are stored in Teleport/SimpleAggregator/logs, by the file name of device UUID.
+1. Login to aggregator
+
+2. All captured log files are stored in Teleport/SimpleAggregator/logs, by the file name of device UUID.
+
     cd Teleport/SimpleAggregator/logs && ls
 
 *Note: Teleport will NOT redirect stdout or stderr when the app runs in Xcode, so that NSLog will still write messages to Xcode console window. To override this behavior, uncomment `// TELEPORT_DEBUG = YES;`.
@@ -63,8 +70,10 @@ By default, Teleport only sends NSLog messages to aggregator when app runs in us
 
 It is a frequently-asked question: how do I test aggregator before I release my app? The answer is: you don't need to because SimpleAggregator just works. But if you insist, or you use your own aggregator, there are 2 options to test aggregator:
 
-1. Cut a release build for your app and install it using HockeyApp or similar services, or
-2. Turn on `TELEPORT_DEBUG = YES;`. Do forget to turn it off before releasing your app.
+- Cut a release build for your app and install it using HockeyApp or similar services, or
+
+- Turn on `TELEPORT_DEBUG = YES;`. Do forget to turn it off before releasing your app.
+
 ```objective-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     TELEPORT_DEBUG = YES;
@@ -78,6 +87,7 @@ Extending Teleport
 -------------------
 
 Teleport can be easily extended to send to other aggregators. To do so, you need to implement `Forwarder` protocol, which is a simple protocol with only 1 required interface:
+
 ```objective-c
 @protocol Forwarder <NSObject>
 @required
