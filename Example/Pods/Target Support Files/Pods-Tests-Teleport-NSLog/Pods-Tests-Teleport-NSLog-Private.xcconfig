@@ -1,0 +1,5 @@
+#include "Pods-Tests-Teleport-NSLog.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Build" "${PODS_ROOT}/Headers/Build/Teleport-NSLog" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Expecta" "${PODS_ROOT}/Headers/Public/Specta" "${PODS_ROOT}/Headers/Public/Teleport-NSLog"
+OTHER_LDFLAGS = ${PODS_TESTS_TELEPORT_NSLOG_OTHER_LDFLAGS} -ObjC
+PODS_ROOT = ${SRCROOT}

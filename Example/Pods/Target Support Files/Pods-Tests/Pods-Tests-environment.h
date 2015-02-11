@@ -18,9 +18,9 @@
 #define COCOAPODS_VERSION_MINOR_Specta 2
 #define COCOAPODS_VERSION_PATCH_Specta 1
 
-// Teleport
-#define COCOAPODS_POD_AVAILABLE_Teleport
-#define COCOAPODS_VERSION_MAJOR_Teleport 0
-#define COCOAPODS_VERSION_MINOR_Teleport 1
-#define COCOAPODS_VERSION_PATCH_Teleport 0
+// Teleport-NSLog
+#define COCOAPODS_POD_AVAILABLE_Teleport_NSLog
+#define COCOAPODS_VERSION_MAJOR_Teleport_NSLog 0
+#define COCOAPODS_VERSION_MINOR_Teleport_NSLog 1
+#define COCOAPODS_VERSION_PATCH_Teleport_NSLog 1
 

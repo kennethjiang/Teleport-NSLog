@@ -1,20 +1,20 @@
 PODS:
   - Expecta (0.3.1)
   - Specta (0.2.1)
-  - Teleport (0.1.0)
+  - Teleport-NSLog (0.1.1)
 
 DEPENDENCIES:
   - Expecta
   - Specta (~> 0.2.1)
-  - Teleport (from `../`)
+  - Teleport-NSLog (from `../`)
 
 EXTERNAL SOURCES:
-  Teleport:
+  Teleport-NSLog:
     :path: ../
 
 SPEC CHECKSUMS:
   Expecta: 03aabd0a89d8dea843baecb19a7fd7466a69a31d
   Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
-  Teleport: fc7c43a55da3cbac938d0fda5c180a849d4a110b
+  Teleport-NSLog: ec5b1d0687e9746aa6459b5580a09d6f85a65e45
 
 COCOAPODS: 0.34.4

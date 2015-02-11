@@ -1,11 +1,11 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'Teleport', :exclusive => true do
-  pod "Teleport", :path => "../"
+  pod "Teleport-NSLog", :path => "../"
 end
 
 target 'Tests', :exclusive => true do
-  pod "Teleport", :path => "../"
+  pod "Teleport-NSLog", :path => "../"
 
   pod 'Specta', '~> 0.2.1'
   pod 'Expecta'
