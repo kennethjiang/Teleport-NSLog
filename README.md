@@ -1,4 +1,4 @@
-Teleport-NSLog [![CI Status](http://img.shields.io/travis/kennethjiang/Teleport.svg?style=flat)](https://travis-ci.org/Kenneth Jiang/Teleport) [![Version](https://img.shields.io/cocoapods/v/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport) [![License](https://img.shields.io/cocoapods/l/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport) [![Platform](https://img.shields.io/cocoapods/p/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport)
+Teleport-NSLog [![CI Status](http://img.shields.io/travis/kennethjiang/Teleport-NSLog.svg?style=flat)](https://travis-ci.org/kennethjiang/Teleport-NSLog) [![Version](https://img.shields.io/cocoapods/v/Teleport-NSLog.svg?style=flat)](http://cocoadocs.org/docsets/Teleport-NSLog) [![License](https://img.shields.io/cocoapods/l/Teleport-NSLog.svg?style=flat)](http://cocoadocs.org/docsets/Teleport-NSLog) [![Platform](https://img.shields.io/cocoapods/p/Teleport-NSLog.svg?style=flat)](http://cocoadocs.org/docsets/Teleport-NSLog)
 ===============
 
 *Teleport-NSLog captures NSLog messages when your app runs in user's devices, and sends them to specified backend server.*
