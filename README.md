@@ -24,15 +24,15 @@ You can use Linux/Windows/Mac for aggregator. The only requirement is that port 
 
 1. [Intall GO](https://golang.org/doc/install). If you are on Ubuntu, simply do:
 
-    sudo apt-get install golang
+    `sudo apt-get install golang`
 
 2. Clone Teleport to aggregator server:
 
-    git clone https://github.com/kennethjiang/Teleport.git
+    `git clone https://github.com/kennethjiang/Teleport.git`
 
 3. Compile and run aggegator:
 
-    cd Teleport/SimpleAggregator && go build aggregator.go && ./aggregator
+    `cd Teleport/SimpleAggregator && go build aggregator.go && ./aggregator`
 
 Usage
 --------------
@@ -59,7 +59,7 @@ Inspecting captured messages
 
 2. All captured log files are stored in Teleport/SimpleAggregator/logs, by the file name of device UUID.
 
-    cd Teleport/SimpleAggregator/logs && ls
+    `cd Teleport/SimpleAggregator/logs && ls`
 
 *Note: Teleport will NOT redirect stdout or stderr when the app runs in Xcode, so that NSLog will still write messages to Xcode console window. To override this behavior, uncomment `// TELEPORT_DEBUG = YES;`.
 
