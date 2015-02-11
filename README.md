@@ -1,22 +1,22 @@
-Teleport [![CI Status](http://img.shields.io/travis/kennethjiang/Teleport.svg?style=flat)](https://travis-ci.org/Kenneth Jiang/Teleport) [![Version](https://img.shields.io/cocoapods/v/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport) [![License](https://img.shields.io/cocoapods/l/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport) [![Platform](https://img.shields.io/cocoapods/p/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport)
+Teleport-NSLog [![CI Status](http://img.shields.io/travis/kennethjiang/Teleport.svg?style=flat)](https://travis-ci.org/Kenneth Jiang/Teleport) [![Version](https://img.shields.io/cocoapods/v/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport) [![License](https://img.shields.io/cocoapods/l/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport) [![Platform](https://img.shields.io/cocoapods/p/Teleport.svg?style=flat)](http://cocoadocs.org/docsets/Teleport)
 ===============
 
-*Teleport captures NSLog messages when your app runs in user's devices, and sends them to specified backend server.*
+*Teleport-NSLog captures NSLog messages when your app runs in user's devices, and sends them to specified backend server.*
 
 When we debug in Xcode, we use NSLog to print a lot of helpful messages to console. It'd be nice if we can access the same info when the app runs in user's devices.
 
-This was what prompted me to write Teleport.
+This was what prompted me to write Teleport-NSLog.
 
-Teleport re-directs stdout and stderr (where NSLog writes messages to) to backend server (aggregator). SimpleAggregator, which is a basic HTTP-based aggregator, is included in Teleport. Teleport can be easily extended to send to other aggregators such as [logstash](http://logstash.net/), [Fluentd](http://www.fluentd.org/), [Logentries](https://logentries.com), etc.
+Teleport-NSLog re-directs stdout and stderr (where NSLog writes messages to) to backend server (aggregator). SimpleAggregator, which is a basic HTTP-based aggregator, is included in Teleport. Teleport can be easily extended to send to other aggregators such as [logstash](http://logstash.net/), [Fluentd](http://www.fluentd.org/), [Logentries](https://logentries.com), etc.
 
 Installation
 --------------
 
 ### Podfile
 
-Teleport is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
+Teleport-NSLog is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
-    pod "Teleport"
+    pod "Teleport-NSLog"
 
 ### Aggregator (Backend server)
 
@@ -26,13 +26,13 @@ You can use Linux/Windows/Mac for aggregator. The only requirement is that port 
 
     `sudo apt-get install golang`
 
-2. Clone Teleport to aggregator server:
+2. Clone Teleport-NSLog to aggregator server:
 
-    `git clone https://github.com/kennethjiang/Teleport.git`
+    `git clone https://github.com/kennethjiang/Teleport-NSLog.git`
 
 3. Compile and run aggegator:
 
-    `cd Teleport/SimpleAggregator && go build aggregator.go && ./aggregator`
+    `cd Teleport-NSLog/SimpleAggregator && go build aggregator.go && ./aggregator`
 
 Usage
 --------------
@@ -57,16 +57,16 @@ Inspecting captured messages
 
 1. Login to aggregator
 
-2. All captured log files are stored in Teleport/SimpleAggregator/logs, by the file name of device UUID.
+2. All captured log files are stored in Teleport-NSLog/SimpleAggregator/logs, by the file name of device UUID.
 
-    `cd Teleport/SimpleAggregator/logs && ls`
+    `cd Teleport-NSLog/SimpleAggregator/logs && ls`
 
-*Note: Teleport will NOT redirect stdout or stderr when the app runs in Xcode, so that NSLog will still write messages to Xcode console window. To override this behavior, uncomment `// TELEPORT_DEBUG = YES;`.
+*Note: Teleport-NSLog will NOT redirect stdout or stderr when the app runs in Xcode, so that NSLog will still write messages to Xcode console window. To override this behavior, uncomment `// TELEPORT_DEBUG = YES;`.
 
 Testing aggregator
 ----------------
 
-By default, Teleport only sends NSLog messages to aggregator when app runs in user's devices. It does nothing when app is launched in Xcode, and therefore the aggregator will receive nothing.
+By default, Teleport-NSLog only sends NSLog messages to aggregator when app runs in user's devices. It does nothing when app is launched in Xcode, and therefore the aggregator will receive nothing.
 
 It is a frequently-asked question: how do I test aggregator before I release my app? The answer is: you don't need to because SimpleAggregator just works. But if you insist, or you use your own aggregator, there are 2 options to test aggregator:
 
@@ -83,10 +83,10 @@ It is a frequently-asked question: how do I test aggregator before I release my 
     // [...]
 ```
 
-Extending Teleport
+Extending Teleport-NSLog
 -------------------
 
-Teleport can be easily extended to send to other aggregators. To do so, you need to implement `Forwarder` protocol, which is a simple protocol with only 1 required interface:
+Teleport-NSLog can be easily extended to send to other aggregators. To do so, you need to implement `Forwarder` protocol, which is a simple protocol with only 1 required interface:
 
 ```objective-c
 @protocol Forwarder <NSObject>
@@ -110,5 +110,5 @@ Kenneth Jiang, kenneth.jiang@gmail.com
 License
 -----------------
 
-Teleport is available under the MIT license. See the LICENSE file for more info.
+Teleport-NSLog is available under the MIT license. See the LICENSE file for more info.
 
