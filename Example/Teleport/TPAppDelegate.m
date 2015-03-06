@@ -16,7 +16,7 @@
     // Override point for customization after application launch.
     TELEPORT_DEBUG = YES;
     [Teleport startWithForwarder:
-     [SimpleHttpForwarder forwarderWithAggregatorUrl:@"http://ec2-54-152-125-3.compute-1.amazonaws.com:8080/"]
+     [SimpleHttpForwarder forwarderWithAggregatorUrl:@"http://ec2-52-0-101-215.compute-1.amazonaws.com:8080/"]
      ];
     return YES;
 }
