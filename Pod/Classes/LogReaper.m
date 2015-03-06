@@ -40,7 +40,9 @@ static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
         _forwarder = forwarder;
 
         _uuid = [[UIDevice currentDevice] identifierForVendor];
+        [TeleportUtils teleportDebug:@"UUID: %@", _uuid];
         _logReapingQueue = dispatch_queue_create(TP_LOG_REAPING_QUEUE_NAME, DISPATCH_QUEUE_SERIAL);
+        [TeleportUtils teleportDebug:@"Reaping Queue: %@", _logReapingQueue];
         
     }
     return self;
@@ -55,7 +57,7 @@ static const char* const TP_LOG_REAPING_QUEUE_NAME = "com.teleport.LogReaping";
     {
         uint64_t interval = TP_LOG_REAPING_TIMER_INTERVAL * NSEC_PER_SEC;
         uint64_t leeway = 1ull * NSEC_PER_SEC;
-        dispatch_source_set_timer(_timer, dispatch_time(DISPATCH_TIME_NOW, 0), interval, leeway);
+        dispatch_source_set_timer(_timer, dispatch_time(DISPATCH_TIME_NOW, TP_LOG_REAPING_TIMER_INTERVAL * NSEC_PER_SEC / 2 ), interval, leeway);
         dispatch_source_set_event_handler(_timer, ^{
             [self reap];
         });

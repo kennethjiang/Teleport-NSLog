@@ -33,6 +33,8 @@ static const int TP_MAX_ROTATE_INTERVAL_IN_SECS = 30;
         _currentLogPath = nil;
         _lastRotation = [NSDate date];
         _logRotationQueue = dispatch_queue_create(TP_LOG_ROTATION_QUEUE_NAME, DISPATCH_QUEUE_SERIAL);
+
+        [TeleportUtils teleportDebug:@"Rotation Queue: %@", _logRotationQueue];
     }
     return self;
 }
