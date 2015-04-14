@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "Teleport-NSLog"
-  s.version          = "0.2.0"
+  s.version          = "0.2.1"
   s.summary          = "Remote logging for iOS. Send NSLog messages to backend server."
   s.homepage         = "https://github.com/kennethjiang/Teleport-NSLog"
   s.license          = 'MIT'
