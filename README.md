@@ -72,7 +72,7 @@ It is a frequently-asked question: how do I test aggregator before I release my 
 
 - Cut a release build for your app and install it using HockeyApp or similar services, or
 
-- Turn on `TELEPORT_DEBUG = YES;`. Do forget to turn it off before releasing your app.
+- Turn on `TELEPORT_DEBUG = YES;`. Do not forget to turn it off before releasing your app.
 
 ```objective-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
