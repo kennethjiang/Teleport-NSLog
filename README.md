@@ -22,7 +22,7 @@ Teleport-NSLog is available through [CocoaPods](http://cocoapods.org). To instal
 
 You can use Linux/Windows/Mac for aggregator. The only requirement is that port 8080 of this server needs to be accessible from the internet.
 
-1. [Intall GO](https://golang.org/doc/install). If you are on Ubuntu, simply do:
+1. [Install GO](https://golang.org/doc/install). If you are on Ubuntu, simply do:
 
     `sudo apt-get install golang`
 
