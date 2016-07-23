@@ -34,6 +34,9 @@ You can use Linux/Windows/Mac for aggregator. The only requirement is that port 
 
     `cd Teleport-NSLog/SimpleAggregator && go build aggregator.go && ./aggregator`
 
+Security note: if you run this on an internet accessible server, make sure the user it
+runs as has restricted read/write permissions to only the `logs` directory.
+
 Usage
 --------------
 
